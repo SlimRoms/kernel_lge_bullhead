@@ -86,6 +86,9 @@
 extern void msm_hotplug_resume_timeout(void);
 #endif
 
+#define DEFAULT_FINGERPRINT_BOOST  0
+unsigned int fpboost = DEFAULT_FINGERPRINT_BOOST;
+
 static const char * const pctl_names[] = {
 	"fpc1020_spi_active",
 	"fpc1020_reset_reset",
@@ -715,6 +718,39 @@ static ssize_t irq_ack(struct device* device,
 
 static DEVICE_ATTR(irq, S_IRUSR | S_IWUSR, irq_get, irq_ack);
 
+static ssize_t show_fingerprint_boost(struct device *device,
+                   struct device_attribute *attr,
+                   char *buf)
+{
+	return sprintf(buf, "%u\n", fpboost);
+}
+
+
+static ssize_t store_fingerprint_boost(struct device *device,
+                    struct device_attribute *attr,
+                    const char *buf, size_t count)
+{
+    int ret;
+    unsigned int val;
+
+    ret = sscanf(buf, "%u", &val);
+    if (ret != 1)
+        return -EINVAL;
+
+    if (val < 0 || val > 1)
+        return -EINVAL;
+
+    if (val == fpboost)
+        return count;
+
+    fpboost = val;
+
+    return count;
+}
+
+static DEVICE_ATTR(fingerprint_unlock_boost, (S_IWUGO|S_IRUGO), 
+    show_fingerprint_boost, store_fingerprint_boost);
+
 static struct attribute *attributes[] = {
 	&dev_attr_pinctl_set.attr,
 	&dev_attr_spi_owner.attr,
@@ -726,6 +762,7 @@ static struct attribute *attributes[] = {
 	&dev_attr_wakeup_enable.attr,
 	&dev_attr_clk_enable.attr,
 	&dev_attr_irq.attr,
+    &dev_attr_fingerprint_unlock_boost.attr,
 	NULL
 };
 
@@ -793,7 +830,7 @@ static irqreturn_t fpc1020_irq_handler(int irq, void *handle)
 
 	sysfs_notify(&fpc1020->dev->kobj, NULL, dev_attr_irq.attr.name);
 
-	if (!is_display_on()) {
+	if (fpboost && !is_display_on()) {
 		input_report_key(fpc1020->input_dev, KEY_FINGERPRINT, 1);
 		input_sync(fpc1020->input_dev);
 		input_report_key(fpc1020->input_dev, KEY_FINGERPRINT, 0);
