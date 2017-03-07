@@ -1,3 +1,80 @@
+# ----------------------------------------------------------------------------------
+# Yank555.lu Kernel configs
+# ----------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------
+# Kernel name
+# ----------------------------------------------------------------------------------
+CONFIG_LOCALVERSION="-bullhead-Slim7-7.1.2-VictorLapin-v1.1g"
+# CONFIG_LOCALVERSION_AUTO is not set
+
+# ----------------------------------------------------------------------------------
+# Kernel compression
+# ----------------------------------------------------------------------------------
+CONFIG_HAVE_KERNEL_GZIP=y
+CONFIG_HAVE_KERNEL_LZMA=y
+CONFIG_HAVE_KERNEL_XZ=y
+CONFIG_HAVE_KERNEL_LZO=y
+# CONFIG_KERNEL_GZIP is not set
+# CONFIG_KERNEL_LZMA is not set
+CONFIG_KERNEL_XZ=y
+# CONFIG_KERNEL_LZO is not set
+
+# ----------------------------------------------------------------------------------
+# TCP congestion control
+# ----------------------------------------------------------------------------------
+CONFIG_TCP_CONG_ADVANCED=y
+CONFIG_TCP_CONG_BIC=y
+CONFIG_TCP_CONG_CUBIC=y
+CONFIG_TCP_CONG_WESTWOOD=y
+CONFIG_TCP_CONG_HTCP=y
+# CONFIG_TCP_CONG_HSTCP is not set
+# CONFIG_TCP_CONG_HYBLA is not set
+# CONFIG_TCP_CONG_VEGAS is not set
+# CONFIG_TCP_CONG_SCALABLE is not set
+# CONFIG_TCP_CONG_LP is not set
+# CONFIG_TCP_CONG_VENO is not set
+# CONFIG_TCP_CONG_YEAH is not set
+# CONFIG_TCP_CONG_ILLINOIS is not set
+# CONFIG_DEFAULT_BIC is not set
+# CONFIG_DEFAULT_CUBIC is not set
+# CONFIG_DEFAULT_HTCP is not set
+CONFIG_DEFAULT_WESTWOOD=y
+# CONFIG_DEFAULT_RENO is not set
+CONFIG_DEFAULT_TCP_CONG="westwood"
+
+# ----------------------------------------------------------------------------------
+# I/O Scheduler support
+# ----------------------------------------------------------------------------------
+CONFIG_IOSCHED_FIOPS=y
+
+# ----------------------------------------------------------------------------------
+# KCAL support
+# ----------------------------------------------------------------------------------
+CONFIG_FB_MSM_MDSS_KCAL_CTRL=y
+
+# ----------------------------------------------------------------------------------
+# /proc/config.gz support
+# ----------------------------------------------------------------------------------
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+
+# ----------------------------------------------------------------------------------
+# NTFS support
+# ----------------------------------------------------------------------------------
+CONFIG_NTFS_FS=y
+# CONFIG_NTFS_DEBUG is not set
+CONFIG_NTFS_RW=y
+
+# ----------------------------------------------------------------------------------
+# power_efficient workqueues support
+# ----------------------------------------------------------------------------------
+CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
+
+# ----------------------------------------------------------------------------------
+#
+# Stock bullhead defconfig
+#
 CONFIG_AUDIT=y
 CONFIG_NO_HZ=y
 CONFIG_HIGH_RES_TIMERS=y
